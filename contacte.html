@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contacte - Grup de Diables Kapaoltis">
+    <title>Contacte - Grup de Diables Kapaoltis</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .contact-info {
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .contact-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .contact-info p {
+            margin-bottom: 0.5rem;
+        }
+        .contact-info a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .form-note {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/images/cropped-Logo-1.jpg" alt="Kapaoltis Logo">
+                    </a>
+                </div>
+
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">Inici</a></li>
+                        <li><a href="qui-som.html">Qui som</a></li>
+                        <li><a href="kapabesties.html">kapabèsties</a></li>
+                        <li><a href="correfoc-llefia.html">Correfoc Llefia</a></li>
+                        <li><a href="contacte.html" class="active">Contacte</a></li>
+                    </ul>
+                </nav>
+
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Contacte</h1>
+            </div>
+        </section>
+
+        <section class="container" style="padding: 4rem 0;">
+            <!-- Información de contacto -->
+            <div class="grid" style="margin-bottom: 4rem;">
+                <div class="contact-info">
+                    <h3><i class="fas fa-envelope"></i> Correu electrònic</h3>
+                    <p><a href="mailto:kapaoltis@kapaoltis.cat">kapaoltis@kapaoltis.cat</a></p>
+                </div>
+                <div class="contact-info">
+                    <h3><i class="fas fa-phone"></i> Telèfon</h3>
+                    <p><a href="tel:+34679332687">679 332 687</a></p>
+                </div>
+                <div class="contact-info">
+                    <h3><i class="fas fa-map-marker-alt"></i> Adreça</h3>
+                    <p>Carrer Europa, 14 Entr 1a<br>
+                    08913 Badalona (Barcelona)</p>
+                </div>
+            </div>
+
+            <!-- Formulario de contacto -->
+            <div class="contact-form">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Envia'ns un missatge</h2>
+
+                <!-- Nota importante -->
+                <div class="form-note">
+                    <strong>⚠️ Nota:</strong> Aquest és un lloc web estàtic. Per ara, envia'ns un correu directament a
+                    <a href="mailto:kapaoltis@kapaoltis.cat">kapaoltis@kapaoltis.cat</a>
+                </div>
+
+                <!-- TODO: Si quieres un formulario funcional, puedes usar servicios como:
+                     - Formspree (https://formspree.io/)
+                     - Netlify Forms (si usas Netlify)
+                     - Google Forms embebido
+                     - O simplemente el enlace mailto: -->
+
+                <form action="mailto:kapaoltis@kapaoltis.cat" method="post" enctype="text/plain">
+                    <div class="form-group">
+                        <label for="name">Nom <span style="color: var(--primary-color);">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correu electrònic <span style="color: var(--primary-color);">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Telèfon</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Assumpte <span style="color: var(--primary-color);">*</span></label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Missatge <span style="color: var(--primary-color);">*</span></label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%;">Enviar missatge</button>
+                </form>
+            </div>
+
+            <!-- Redes sociales -->
+            <div style="text-align: center; margin-top: 4rem;">
+                <h3>Segueix-nos a les xarxes socials</h3>
+                <div class="social-icons" style="justify-content: center; font-size: 2rem; margin-top: 1rem;">
+                    <a href="#" aria-label="Instagram" style="margin: 0 1rem;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter" style="margin: 0 1rem;"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Grup de Diables Kapaoltis</h3>
+                    <p>Preservant la tradició dels diables i la cultura popular catalana.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enllaços</h3>
+                    <ul>
+                        <li><a href="qui-som.html">Qui som</a></li>
+                        <li><a href="kapabesties.html">kapabèsties</a></li>
+                        <li><a href="correfoc-llefia.html">Correfoc Llefia</a></li>
+                        <li><a href="contacte.html">Contacte</a></li>
+                        <li><a href="llei-transparencia.html">Llei de transparència</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacte</h3>
+                    <p>Email: kapaoltis@kapaoltis.cat</p>
+                    <p>Telèfon: 679 332 687</p>
+                    <p>Carrer Europa, 14 Entr 1a<br>08913 Badalona (Barcelona)</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Grup de Diables Kapaoltis. Tots els drets reservats.</p>
+            </div>
+        </div>
+    </footer>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
