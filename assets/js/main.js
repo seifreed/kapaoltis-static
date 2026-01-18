@@ -1,141 +1,236 @@
-// Mobile Menu Toggle
-const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-const mainNav = document.querySelector('.main-nav');
+// ===========================
+// Modern JavaScript for Kapaoltis Website
+// ===========================
 
-if (mobileMenuToggle) {
+document.addEventListener('DOMContentLoaded', () => {
+    initMobileMenu();
+    initSlider();
+    initScrollEffects();
+    initSmoothScroll();
+});
+
+// ===========================
+// Mobile Menu
+// ===========================
+function initMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mainNav = document.getElementById('mainNav');
+
+    if (!mobileMenuToggle || !mainNav) return;
+
     mobileMenuToggle.addEventListener('click', () => {
-        mainNav.classList.toggle('active');
         mobileMenuToggle.classList.toggle('active');
+        mainNav.classList.toggle('active');
+        document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
     });
 
-    // Close menu when clicking a link
+    // Close menu when clicking on a link
     const navLinks = mainNav.querySelectorAll('a');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            mainNav.classList.remove('active');
             mobileMenuToggle.classList.remove('active');
+            mainNav.classList.remove('active');
+            document.body.style.overflow = '';
         });
     });
 
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!mainNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            mainNav.classList.remove('active');
             mobileMenuToggle.classList.remove('active');
+            mainNav.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
 }
 
-// Slider Functionality
-const slides = document.querySelectorAll('.slide');
-const sliderDotsContainer = document.querySelector('.slider-dots');
-const prevBtn = document.querySelector('.slider-nav.prev');
-const nextBtn = document.querySelector('.slider-nav.next');
+// ===========================
+// Image Slider
+// ===========================
+function initSlider() {
+    const slider = document.getElementById('slider');
+    if (!slider) return;
 
-let currentSlide = 0;
-let slideInterval;
+    const slides = slider.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    const dotsContainer = document.getElementById('sliderDots');
 
-// Create dots
-if (sliderDotsContainer && slides.length > 0) {
+    let currentSlide = 0;
+    let slideInterval;
+
+    // Create dots
     slides.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('slider-dot');
         if (index === 0) dot.classList.add('active');
         dot.addEventListener('click', () => goToSlide(index));
-        sliderDotsContainer.appendChild(dot);
-    });
-}
-
-const dots = document.querySelectorAll('.slider-dot');
-
-function updateSlides() {
-    slides.forEach((slide, index) => {
-        slide.classList.remove('active');
-        if (dots[index]) dots[index].classList.remove('active');
+        dotsContainer.appendChild(dot);
     });
 
-    if (slides[currentSlide]) {
+    const dots = dotsContainer.querySelectorAll('.slider-dot');
+
+    function goToSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+
+        currentSlide = (n + slides.length) % slides.length;
+
         slides[currentSlide].classList.add('active');
-        if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
     }
-}
 
-function nextSlide() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    updateSlides();
-}
+    function nextSlide() {
+        goToSlide(currentSlide + 1);
+    }
 
-function prevSlide() {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    updateSlides();
-}
+    function prevSlide() {
+        goToSlide(currentSlide - 1);
+    }
 
-function goToSlide(index) {
-    currentSlide = index;
-    updateSlides();
-    resetInterval();
-}
+    // Event listeners
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 
-function resetInterval() {
-    clearInterval(slideInterval);
-    slideInterval = setInterval(nextSlide, 5000);
-}
+    // Auto-play
+    function startAutoPlay() {
+        slideInterval = setInterval(nextSlide, 5000);
+    }
 
-// Event listeners
-if (nextBtn) nextBtn.addEventListener('click', () => {
-    nextSlide();
-    resetInterval();
-});
+    function stopAutoPlay() {
+        clearInterval(slideInterval);
+    }
 
-if (prevBtn) prevBtn.addEventListener('click', () => {
-    prevSlide();
-    resetInterval();
-});
-
-// Auto-play slider
-if (slides.length > 0) {
-    slideInterval = setInterval(nextSlide, 5000);
+    startAutoPlay();
 
     // Pause on hover
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.addEventListener('mouseenter', () => clearInterval(slideInterval));
-        hero.addEventListener('mouseleave', () => {
-            slideInterval = setInterval(nextSlide, 5000);
-        });
+    slider.addEventListener('mouseenter', stopAutoPlay);
+    slider.addEventListener('mouseleave', startAutoPlay);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === 'ArrowRight') nextSlide();
+    });
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    slider.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    slider.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
     }
 }
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href !== '#' && href !== '') {
+// ===========================
+// Scroll Effects
+// ===========================
+function initScrollEffects() {
+    const header = document.getElementById('header');
+    if (!header) return;
+
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+
+        // Add scrolled class for header background
+        if (currentScroll > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        lastScroll = currentScroll;
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe cards and events
+    const animatedElements = document.querySelectorAll('.card, .event, .content-section');
+    animatedElements.forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        observer.observe(el);
+    });
+}
+
+// ===========================
+// Smooth Scroll
+// ===========================
+function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href === '#') return;
+
             e.preventDefault();
             const target = document.querySelector(href);
+
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                const headerOffset = 100;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
                 });
             }
-        }
+        });
     });
-});
+}
 
-// Add active class to current page nav link
-const currentLocation = window.location.pathname.split('/').pop() || 'index.html';
-const navLinks = document.querySelectorAll('.main-nav a');
+// ===========================
+// Utility: Debounce
+// ===========================
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
 
-navLinks.forEach(link => {
-    const linkPath = link.getAttribute('href');
-    if (linkPath === currentLocation ||
-        (currentLocation === '' && linkPath === 'index.html')) {
-        link.classList.add('active');
-    }
-});
-
-// Lazy loading for images (simple implementation)
+// ===========================
+// Performance: Lazy Loading Images
+// ===========================
 if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -154,26 +249,3 @@ if ('IntersectionObserver' in window) {
         imageObserver.observe(img);
     });
 }
-
-// Add animation on scroll
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe cards and events for animation
-document.querySelectorAll('.card, .event').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-});
